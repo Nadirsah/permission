@@ -24,7 +24,7 @@ use GuzzleHttp\Middleware;
 */
 Route::get('/redirects',[IndexController::class,'redirects']);
 
-Route::group(['prefix'=>'admin','as'=>'admin.','middleware'=>'auth',],function(){
+Route::group(['prefix'=>'admin','as'=>'admin.','middleware'=>['auth','permission']],function(){
   Route::get('/dashboard',[HomeController::class,'index'])->name('dashboard');
   // User
   Route::resource('/user',Usercontroller::class,);
@@ -34,7 +34,7 @@ Route::group(['prefix'=>'admin','as'=>'admin.','middleware'=>'auth',],function()
   Route::post('update_site/', [SettingController::class, 'updateSite'])->name('isStatussite');
  
 
-  Route::group(['middleware'=>['role:admin']],function(){
+  
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
     Route::post('/roles/{role}/permissions', [RoleController::class,'givePermission'])->name('roles.permissions');
@@ -46,8 +46,8 @@ Route::group(['prefix'=>'admin','as'=>'admin.','middleware'=>'auth',],function()
     Route::delete('/user/{user}/roles/{role}', [Usercontroller::class,'revokeUserRole'])->name('user.roles.remove');
     Route::post('/user/{user}/permissions', [Usercontroller::class,'giveUserPermissions'])->name('user.permissions');
     Route::delete('/user/{user}/permissions/{permission}', [Usercontroller::class,'revokeUserPermissions'])->name('user.permissions.remove');
-    Route::resource('products', ProductController::class)->middleware('role:writer|admin');
-  });
+    Route::resource('products', ProductController::class);
+ 
   
   
  
