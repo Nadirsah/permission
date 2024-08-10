@@ -47,6 +47,8 @@ Route::group(['prefix'=>'admin','as'=>'admin.','middleware'=>['auth','permission
     Route::post('/user/{user}/permissions', [Usercontroller::class,'giveUserPermissions'])->name('user.permissions');
     Route::delete('/user/{user}/permissions/{permission}', [Usercontroller::class,'revokeUserPermissions'])->name('user.permissions.remove');
     Route::resource('products', ProductController::class);
+
+    Route::get('/usertest',[Usercontroller::class,'test'])->name('test');
  
   
   
@@ -59,5 +61,5 @@ Route::middleware(['web','guest'])->controller(AuthController::class)->group(fun
 });
 
 Route::group(['prefix'=>'admin','middleware'=>['auth']],function(){
-    Route::get('/logout',[AuthController::class,'logout'])->name('logout');
+    Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 });

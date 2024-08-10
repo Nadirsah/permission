@@ -32,7 +32,15 @@
                     <li class="divider"></li>
                     <li><a href="{{route('admin.user.index')}}"><i class="icon-user-plus"></i> İstifadəçi
                             ayarları</a></li>
-                    <li><a href="{{route('logout')}}"><i class="icon-switch2"></i> Çıxış</a></li>
+                    <li>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>

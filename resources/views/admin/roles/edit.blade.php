@@ -39,13 +39,21 @@
     <form action="{{ route('admin.roles.permissions',$role->id) }}" method="POST">
         @csrf
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
+            <!-- <div class="col-xs-12 col-sm-12 col-md-12">
                 <select name="permission" id="">
                     @foreach($permissions as $permission)
                     <option value="{{$permission->name}}">{{$permission->name}}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> -->
+
+            @foreach ($permissions as $value)
+            <label>
+                <input type="checkbox" @if (in_array($value->name, $rolePermissions)) checked @endif name="permission[]"
+                value="{{$value->name}}" class="name">
+                {{ $value->name }}</label>
+            <br />
+            @endforeach
 
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Assign</button>

@@ -127,4 +127,8 @@ class UserController extends Controller
         }
         return back()->with('type', 'success')->with('message', 'Məlumat uğurla yeniləndi!');
     }
+
+    public function test(){
+         return view('admin.users.test');
+    }
 }

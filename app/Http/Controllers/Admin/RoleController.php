@@ -57,9 +57,10 @@ class RoleController extends Controller
 
     public function edit($id)
     {
+        $rolePermissions = Role::find($id)->permissions->pluck('name')->toArray();
         $permissions = Permission::all();
         $role = Role::find($id);
-        return view('admin.roles.edit', compact('role', 'permissions'));
+        return view('admin.roles.edit', compact('role', 'permissions', 'rolePermissions'));
     }
 
     public function update(Request $request, $id)
@@ -83,10 +84,14 @@ class RoleController extends Controller
 
     public function givePermission(Request $request, Role $role)
     {
-        if ($role->hasPermissionTo($request->permission)) {
-            return back()->with("Ugursuz");
+        $permissions = $request->input('permission', []);
+        foreach ($permissions as $permission) {
+            if ($role->hasPermissionTo($permission)) {
+                continue;
+            }
+            $role->givePermissionTo($permission);
         }
-        $role->givePermissionTo($request->permission);
+
         return back()->with("Ugurlu");
     }
     public function revokePermission(Role $role, Permission $permission)
