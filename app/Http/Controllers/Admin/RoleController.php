@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
@@ -22,8 +23,9 @@ class RoleController extends Controller
 
     public function index(Request $request)
     {
+        $user = Auth::user()->name;
         $roles = Role::whereNotIn('name', ['Admin'])->get();
-        return view('admin.roles.index', compact('roles'));
+        return view('admin.roles.index', compact('roles', 'user'));
     }
 
     public function create()
@@ -76,10 +78,13 @@ class RoleController extends Controller
             ->with('success', 'Role updated successfully');
     }
 
-    public function destroy(Role $role)
+    public function destroy(Role $role) {}
+    public function delete(Role $role)
     {
         $role->delete();
-        return back()->with("Ugurlu");
+        return response()->json([
+            'success' => 'Record deleted successfully!',
+        ]);
     }
 
     public function givePermission(Request $request, Role $role)
@@ -98,7 +103,7 @@ class RoleController extends Controller
     {
         if ($role->hasPermissionTo($permission)) {
             $role->revokePermissionTo($permission);
-            return back()->with("Icaze silindi");
+            return back()->with("");
         }
         return back()->with("Ugursuz");
     }

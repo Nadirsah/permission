@@ -36,7 +36,7 @@ class PermissionController extends Controller
             'name' => 'required|unique:roles,name',
         ]);
 
-        Permission::create(['name' => $request->input('name')]);
+        Permission::create(['name' => $request->input('name'),'slug'=>str_replace('.','_',$request->input('name'))]);
       
         
         return redirect()->route('admin.permissions.index')

@@ -36,6 +36,7 @@ Route::group(['prefix'=>'admin','as'=>'admin.','middleware'=>['auth','permission
 
   
     Route::resource('roles', RoleController::class);
+    Route::post('/role_delete/{id}', [RoleController::class, 'delete'])->name('role.delete');
     Route::resource('permissions', PermissionController::class);
     Route::post('/roles/{role}/permissions', [RoleController::class,'givePermission'])->name('roles.permissions');
     Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class,'revokePermission'])->name('roles.permission.revoke');
@@ -63,3 +64,5 @@ Route::middleware(['web','guest'])->controller(AuthController::class)->group(fun
 Route::group(['prefix'=>'admin','middleware'=>['auth']],function(){
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 });
+
+Route::get('/error',[ProductController::class,'error'])->name('error');

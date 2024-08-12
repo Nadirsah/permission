@@ -29,7 +29,7 @@
             </tr>
             @foreach ($permissions as $permission)
             <tr>
-                <td>{{ $permission->name }}</td>
+                <td>{{ $permission->slug }}</td>
                 <td> <a href="{{route('admin.permissions.edit',$permission->id)}}"><i class="btn btn-info fa fa-edit"></i></a>
                 <form action="{{route('admin.permissions.destroy',$permission->id)}}" method="post" onsubmit="return confirm('Emisnisniz?')">
                         @csrf

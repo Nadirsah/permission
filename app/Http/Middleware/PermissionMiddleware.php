@@ -38,6 +38,6 @@ class PermissionMiddleware
                 return $next($request);
             }
         }
-        throw UnauthorizedException::forPermissions($permissions);
+        session()->flash('error', 'Siz bu səhifəyə daxil olmaq icazəniz yoxdur.');
     }
 }

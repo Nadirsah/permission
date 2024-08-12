@@ -4,11 +4,7 @@
 <link href="{{asset('admin')}}\global_assets\css\icons\fontawesome\styles.min.css" rel="stylesheet" type="text/css">
 @endsection
 @section('theme_js')
-<script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="{{asset('admin')}}\global_assets\js\plugins\forms\styling\uniform.min.js"></script>
-<script src="{{asset('admin')}}\global_assets\js\plugins\forms\styling\switchery.min.js"></script>
-<script src="{{asset('admin')}}\global_assets\js\plugins\forms\styling\switch.min.js"></script>
-<script src="{{asset('admin')}}\global_assets\js\demo_pages\form_checkboxes_radios.js"></script>
+
 @endsection
 
 
@@ -22,31 +18,51 @@
 
         </div>
 
-        <table class="table table-striped table-hover">
-            <tr>
-                <th>Name</th>
-                <th width="280px">Action</th>
-            </tr>
-            @foreach ($roles as $role)
-            <tr>
-                <td>{{ $role->name }}</td>
-                <td> <a href="{{route('admin.roles.edit',$role->id)}}"><i class="btn btn-info fa fa-edit"></i></a>
-                    <form action="{{route('admin.roles.destroy',$role->id)}}" method="post" onsubmit="return confirm('Emisnisniz?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit">Delete</button>
-
-                    </form>
-                </td>
-
-            </tr>
-
-            @endforeach
+        <table class="table ">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Daxil etmə tarixi</th>
+                    <th>Düzəliş et</th>
+                    <th class="text-center">Sil</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($roles as $role)
+                <tr>
+                    <td>{{ $role->name }}</td>
+                    <td>{{$role->created_at}}</td>
+                    <td> <a href="{{route('admin.roles.edit',$role->id)}}"><i class="btn btn-info fa fa-edit"></i></a></td>
+                    <td class="text-center"><a class="deleteRecord " data-id="{{ $role->id }}"><i class="btn btn-danger fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
         </table>
     </div>
 </div>
 <script>
-    let table = new DataTable('#dataTable');
+    $(".deleteRecord").click(function() {
+    var id = $(this).data("id");
+    var token = $("meta[name='csrf-token']").attr("content");
+    var confirmDelete = confirm("Silməyə əminsiniz?");
+    if (!confirmDelete) {
+        return false;
+    }
+    
+    $.ajax({
+        url: "role_delete/" + id,
+        type: 'post',
+        data: {
+            "id": id,
+            "_token": token,
+        },
+        success: function() {
+            $(`.deleteRecord[data-id="${id}"]`).closest('tr').remove();
+        }
+    });
+
+});
 </script>
 
 @endsection

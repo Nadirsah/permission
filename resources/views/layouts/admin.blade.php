@@ -15,7 +15,9 @@
 
     <!-- Page container -->
     <div class="page-container">
-
+        @if (session('error'))
+        <p style="color: red;">{{ session('error') }}</p>
+        @endif
         <!-- Page content -->
         <div class="page-content">
 

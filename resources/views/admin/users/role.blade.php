@@ -73,7 +73,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <select name="permission" id="">
                         @foreach($permissions as $permission)
-                        <option value="{{$permission->name}}">{{$permission->name}}</option>
+                        <option value="{{$permission->name}}">{{$permission->slug}}</option>
                         @endforeach
                     </select>
                 </div>
