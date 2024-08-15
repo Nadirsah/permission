@@ -27,8 +27,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->paginate(50);
-        return view('admin.products.index', compact('products'));
+        $products = Product::all();
+        return response()->json([
+            'status' => true,
+            'product' => $products
+        ]);
     }
 
     /**
@@ -49,15 +52,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
-        ]);
+        $product = Product::create($request->all());
 
-        Product::create($request->all());
-
-        return redirect()->route('admin.products.index')
-            ->with('success', 'Product created successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => "Product Created successfully!",
+            'product' => $product
+        ], 200);
     }
 
     /**
@@ -68,7 +69,12 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('admin.products.show', compact('product'));
+
+        return response()->json([
+            'status' => true,
+            'message' => "Product Show function!",
+            'product' => $product
+        ]);
     }
 
     /**
@@ -91,15 +97,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
-        ]);
-
         $product->update($request->all());
-
-        return redirect()->route('admin.products.index')
-            ->with('success', 'Product updated successfully');
+        return response()->json([
+            'status' => true,
+            'message' => "Product Update successfully!",
+            'product' => $product
+        ], 200);
     }
 
     /**
@@ -110,15 +113,22 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $product->delete();
-
-        return redirect()->route('products.index')
-            ->with('success', 'Product deleted successfully');
+        if ($product->delete()) {
+            return response()->json([
+                'status' => true,
+                'message' => "Product Delete successfully!",
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "Product Delete failed!",
+            ], 200);
+        }
     }
 
     public function error()
     {
-       
+
         return view('admin.error');
     }
 }

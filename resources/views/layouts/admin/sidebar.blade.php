@@ -20,9 +20,9 @@
                     <li class="{{Request::segment(2)==='permissions' ? 'active' : ''}}"><a href="{{ route('admin.permissions.index') }}"><i class="icon-home4"></i><span>Manage Permissions</span></a></li>
                     <li class="{{Request::segment(2)==='usertest' ? 'active' : ''}}"><a href="{{ route('admin.test') }}"><i class="icon-home4"></i><span>Test</span></a></li>
                     <li class="ms-3 nav-item dropdown">
-
+                    <li class="{{Request::segment(2)==='email' ? 'active' : ''}}"><a href="{{ route('admin.email') }}"><i class="icon-home4"></i><span>Email</span></a></li>
                         <!-- /main -->
-
+                        
                         <!-- Forms -->
                         <!-- /forms -->
 
