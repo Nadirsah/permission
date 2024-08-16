@@ -31,7 +31,7 @@ class WelcomeEmail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'My Test Email',
+            subject: 'Nproduction',
         );
     }
 
@@ -41,10 +41,12 @@ class WelcomeEmail extends Mailable
     public function content()
     {
         $text = MailModel::first();
+        
         return new Content(
             view: 'admin.mail.sendmail',
             with: [
-                'text' => $text // Məlumatları düzgün formatda ötürün
+                'text' => $text ,
+               'user' => $this->user,// Məlumatları düzgün formatda ötürün
             ],
         );
     }

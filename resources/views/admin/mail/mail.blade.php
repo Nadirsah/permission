@@ -14,7 +14,7 @@
 
 @section('content')
 <div class="content">
-@include('layouts.admin.alert')
+    @include('layouts.admin.alert')
     <!-- Basic tabs -->
     <form action="{{ route('admin.postemail') }}" method="POST">
         @csrf
@@ -30,9 +30,33 @@
             </div>
         </div>
     </form>
-   <h1>E-POCT</h1>
-   <a href="{{ route('admin.sendemail') }}"><span>Gonder</span></a>
+    <h1>E-POCT</h1>
+    <a href="{{ route('admin.sendemail') }}"><span>Gonder</span></a>
 </div>
+<hr>
+<table class="table text-center">
+    <thead>
+        <tr>
+            <td>Text</td>
+        </tr>
+    </thead>
+    <tbody >
+        @foreach($data as $item)
+        <tr>
+            <td>{{$item->name}}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+<hr>
+<form action="{{route('admin.sendcustomer')}}" method="POST">
+    @csrf
+    <label for="name">Adınız:</label>
+    <input type="text" id="name" name="name" required>
 
+
+
+    <button type="submit">Göndər</button>
+</form>
 
 @endsection

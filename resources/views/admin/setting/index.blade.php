@@ -32,7 +32,12 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><img width="50" src="{{$data->logo_file_path}}"></td>
+                    <td>@if($data->logo_file_path)
+                        <img width="50" src="{{ $data->logo_file_path }}">
+                        @else
+                        None
+                        @endif
+                    </td>
                     <td><img width="50" src="{{$data->favicon_file_path}}"></td>
                     <td>{{$data->phone_1}}</td>
                     <td>{{$data->phone_2}}</td>
@@ -55,30 +60,30 @@
     </div>
 </div>
 <script>
-$(document).ready(function() {
-    $('.switchery').click(function() {
-        var id = $(this).attr("id");
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr("content")
-            }
-        });
-        $.ajax({
-            url: "{{route('admin.isStatussite')}}",
-            type: 'POST',
-            data: {
-                "id": id,
-                is_active: $(this).is(':checked'),
+    $(document).ready(function() {
+        $('.switchery').click(function() {
+            var id = $(this).attr("id");
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr("content")
+                }
+            });
+            $.ajax({
+                url: "{{route('admin.isStatussite')}}",
+                type: 'POST',
+                data: {
+                    "id": id,
+                    is_active: $(this).is(':checked'),
 
-            },
-            success: function(data) {
-                console.log('Status updated successfully');
-            },
-            error: function(error) {
-                console.error('Error updating status:', error);
-            }
+                },
+                success: function(data) {
+                    console.log('Status updated successfully');
+                },
+                error: function(error) {
+                    console.error('Error updating status:', error);
+                }
+            });
         });
     });
-});
 </script>
 @endsection

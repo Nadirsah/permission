@@ -1,1 +1,1 @@
-{{$text->name}}
+{{$user->name}}-{{$text->name}}

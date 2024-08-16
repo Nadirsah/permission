@@ -58,6 +58,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], fu
     Route::get('/email', [MailController::class, 'index'])->name('email');
     Route::post('/postemail', [MailController::class, 'store'])->name('postemail');
 
+    Route::post('/sendemailcustomer', [MailController::class, 'sendcustomer'])->name('sendcustomer');
+
     
 });
 

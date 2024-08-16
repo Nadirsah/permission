@@ -8,6 +8,8 @@ use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\MailModel;
+use App\Models\Setting;
+
 
 class MailController extends Controller
 {
@@ -25,15 +27,39 @@ class MailController extends Controller
         }
     }
 
-    public function index(){
-        return view('admin.mail.mail');
+    public function index()
+    {
+        $data = MailModel::all();
+        return view('admin.mail.mail', compact('data'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
-        $data=new MailModel;
-        $data->name=$request->name;
+        $data = new MailModel;
+        $data->name = $request->name;
         $data->save();
         return back();
+    }
+
+    public function sendcustomer(Request $request)
+    {
+        $mail = Setting::first();
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+
+        ]);
+        $data = new MailModel;
+        $data->name = $request->name;
+        $data->save();
+
+        // E-mail göndərmək
+        Mail::send([], [], function ($message) use ($data,$mail) {
+            $message->to($mail->email) // Şirkətin e-poçtu
+                ->subject('Yeni mesaj') // Mövzu
+                ->html('Ad: ' . $data['name']);
+        });
+
+        return back()->with('success', 'Mesajınız uğurla göndərildi!');
     }
 }
